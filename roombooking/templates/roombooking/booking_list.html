@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Booking List</h1>
+  <br>
+  <a href="{% url 'room-create' %}"><button>Add Booking</button></a>
+  {% if booking_list %}
+  <ul>
+    {% for booking in booking_list %}
+      <li>
+        <a href="">{{ booking.id }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no bookings in the library.</p>
+  {% endif %}
+{% endblock %}

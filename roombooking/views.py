@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Room
+from .models import Room, Booking
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -25,7 +25,9 @@ def roomavailabilities(request):
             print(start)
             print(end)
 
-            
+            bookings = Booking.objects.all
+
+
 
     context = {
         'rooms': rooms,
@@ -37,6 +39,9 @@ def roomavailabilities(request):
 
 class RoomListView(generic.ListView):
     model = Room
+
+class BookingListView(generic.ListView):
+    model = Booking
 
 class RoomDetailView(generic.DetailView):
     model = Room
