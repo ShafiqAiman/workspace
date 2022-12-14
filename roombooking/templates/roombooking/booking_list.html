@@ -4,11 +4,11 @@
 <div class="container">
   <h1>Booking List</h1>
   <br>
-  <a href="{% url 'room-create' %}"><button>Add Booking</button></a>
+  <a href="{% url 'room-create' %}"><button class="btn btn-primary mb-3">Add Booking</button></a>
   {% if booking_list %}
-  <ul>
+  <ul class="list-group">
     {% for booking in booking_list %}
-      <li>
+      <li class="list-group-item">
         <a href="">{{ booking.id }}</a>
       </li>
     {% endfor %}

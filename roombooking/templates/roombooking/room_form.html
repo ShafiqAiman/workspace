@@ -4,10 +4,12 @@
 <div class="container">
   <form action="" method="post">
     {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
-    <input type="submit" value="Submit" />
+    
+    <div class="form-group">
+      <label for="roomname">Room Name</label>
+      {{form.name}}
+    </div>
+    <input class="btn btn-primary" type="submit" value="Submit" />
   </form>
 </div>
   

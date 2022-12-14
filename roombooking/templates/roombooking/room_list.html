@@ -4,11 +4,12 @@
 <div class="container">
   <h1>Room List</h1>
   <br>
-  <a href="{% url 'room-create' %}"><button>Add Room</button></a>
+  <a href="{% url 'room-create' %}"><button class="btn btn-primary mb-3" >Add Room</button></a>
+  
   {% if room_list %}
-  <ul>
+  <ul class="list-group">
     {% for room in room_list %}
-      <li>
+      <li class="list-group-item">
         <a href="{{ room.get_absolute_url }}">{{ room.name }}</a>
       </li>
     {% endfor %}
