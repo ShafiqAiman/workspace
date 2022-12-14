@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Room Availabilities</h1>
+  <h1>Available Rooms</h1>
 
   <form action="{% url 'rooms-availabilities' %}" method="post">
     {% csrf_token %}

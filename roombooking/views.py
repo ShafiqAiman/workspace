@@ -16,7 +16,7 @@ def index(request):
 def roomavailabilities(request):
     rooms = Room.objects.all
     if request.method == 'POST':
-        print("Form is working")
+        print("The request is POST")
         form = RoomAvailabilitiesForm(request.POST)
 
         if form.is_valid():
@@ -26,11 +26,15 @@ def roomavailabilities(request):
             print(end)
 
             bookings = Booking.objects.all
-
-
-
+            print(bookings)
+            rooms1 = Room.objects
+            rooms = rooms1.exclude(name = '')
+            # for booking in bookings:
+            #     rooms = rooms1.exclude(name = booking)
+            
     context = {
         'rooms': rooms,
+        'bookings': bookings,
     }
 
     
