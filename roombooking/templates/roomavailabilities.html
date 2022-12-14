@@ -1,6 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+<div class="container">
   <h1>Available Rooms</h1>
 
   <form action="{% url 'rooms-availabilities' %}" method="post">
@@ -56,6 +57,8 @@
     {% endfor %}
 
   {% endif %} -->
+</div>
+  
 
 
   

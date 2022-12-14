@@ -1,6 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+<div class="container">
   <h1>Room List</h1>
   <br>
   <a href="{% url 'room-create' %}"><button>Add Room</button></a>
@@ -15,4 +16,6 @@
   {% else %}
     <p>There are no rooms in the library.</p>
   {% endif %}
+</div>
+  
 {% endblock %}
