@@ -15,26 +15,36 @@ def index(request):
 
 def roomavailabilities(request):
     rooms = Room.objects.all
+    bookings = Booking.objects.all
+    today = datetime.date.today()
+    start = today
     if request.method == 'POST':
         print("The request is POST")
         form = RoomAvailabilitiesForm(request.POST)
 
         if form.is_valid():
             start = form.cleaned_data['start']
-            end = form.cleaned_data['end']
             print(start)
-            print(end)
+        
+    bookings = Booking.objects.filter(startdate = start)
 
-            bookings = Booking.objects.all
-            print(bookings)
-            rooms1 = Room.objects
-            rooms = rooms1.exclude(name = '')
-            # for booking in bookings:
-            #     rooms = rooms1.exclude(name = booking)
+    roomsfilter = Room.objects
+
+    roomlist = []
+
+    for booking in bookings:
+        print(booking.room)
+        roomlist.append(booking.room)
+
+    rooms = roomsfilter.exclude(name__in = roomlist)
+            
             
     context = {
         'rooms': rooms,
-        'bookings': bookings,
+        'bookings':bookings,
+        'today': today,
+        'start': start,
+        
     }
 
     

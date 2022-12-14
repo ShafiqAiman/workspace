@@ -23,13 +23,13 @@ class Room(models.Model):
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,
                           help_text="Unique ID for this booking")
-    startdate = models.DateTimeField()
-    enddate = models.DateTimeField()
+    startdate = models.DateField()
+    enddate = models.DateField()
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     organizer = models.ForeignKey(User, on_delete=models.CASCADE)
     dateadded = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         """String for representing the Model object."""
-        return '{0} ({1})'.format(self.id, self.room.name)
+        return '{0} ({1})'.format(self.startdate, self.room.name)
     

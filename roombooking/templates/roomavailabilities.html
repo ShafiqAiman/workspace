@@ -6,29 +6,57 @@
   <form action="{% url 'rooms-availabilities' %}" method="post">
     {% csrf_token %}
     <label for="start">Start: </label>
-    <input id="start" name="start" type="datetime-local">
+    <input id="start" name="start" type="date">
     <br>
-
-    <label for="end">End: </label>
-    <input id="end" name="end" type="datetime-local">
-    <br>
-    
     <br>
     <input type="submit">
   </form>
   <br>
-  <h4>Results: </h4>
-  {% if rooms %}
-  <ul>
-    {% for room in rooms %}
-      <li>
-        <a href="{{ room.get_absolute_url }}">{{ room.name }}</a>
-      </li>
-    {% endfor %}
-  </ul>
-  {% else %}
+  
+  <h4>Results for {{ start }}: </h4>
+  
+  
+    {% if rooms %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Room</th>
+          <th scope="col">Available Slots</th>
+        </tr>
+      </thead>
+
+      {% for room in rooms %}
+
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td><a href="{{ room.get_absolute_url }}">{{ room.name }}</td>
+          <td>
+            <ul>
+              <li>1pm - 2pm</li>
+              <li>2pm - 3pm</li>
+              <li>3pm - 4pm</li>
+              <li>4pm - 5pm</li>
+            </ul>
+          </td>
+        </tr>
+        
+      </tbody>
+      {% endfor %}
+
+    {% else %}
     <p>There are no rooms in the library.</p>
-  {% endif %}
+    </table>
+    {% endif %}
+  
+  <!-- {% if bookings %}
+    {% for booking in bookings %}
+    <p>{{ booking.startdate }}, {{ booking.room }}</p>
+    {% endfor %}
+
+  {% endif %} -->
+
 
   
 {% endblock %}
