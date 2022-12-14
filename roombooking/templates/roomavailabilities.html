@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Room Availabilities</h1>
+
+  <form action="{% url 'rooms-availabilities' %}" method="post">
+    {% csrf_token %}
+    <label for="start">Start: </label>
+    <input id="start" name="start" type="datetime-local">
+    <br>
+
+    <label for="end">End: </label>
+    <input id="end" name="end" type="datetime-local">
+    <br>
+    
+    <br>
+    <input type="submit">
+  </form>
+  <br>
+  {% if rooms %}
+  <ul>
+    {% for room in rooms %}
+      <li>
+        <a href="{{ room.get_absolute_url }}">{{ room.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no rooms in the library.</p>
+  {% endif %}
+
+  
+{% endblock %}

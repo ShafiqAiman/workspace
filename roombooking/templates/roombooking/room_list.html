@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Room List</h1>
+  <br>
+  <a href="{% url 'room-create' %}"><button>Add Room</button></a>
+  {% if room_list %}
+  <ul>
+    {% for room in room_list %}
+      <li>
+        <a href="{{ room.get_absolute_url }}">{{ room.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no rooms in the library.</p>
+  {% endif %}
+{% endblock %}
