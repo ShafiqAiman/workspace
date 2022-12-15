@@ -60,6 +60,9 @@ class BookingListView(generic.ListView):
 class RoomDetailView(generic.DetailView):
     model = Room
 
+class BookingDetailView(generic.DetailView):
+    model = Booking
+
 class RoomCreate(CreateView):
     model = Room
     fields = '__all__'
@@ -71,3 +74,16 @@ class RoomUpdate(UpdateView):
 class RoomDelete(DeleteView):
     model = Room
     success_url = reverse_lazy('Rooms')
+
+class BookingCreate(CreateView):
+    model = Booking
+    fields = ['startdate', 'enddate', 'room', 'organizer']
+    initial = {'startdate': datetime.date.today(), 'enddate': datetime.date.today(),}
+
+class BookingUpdate(UpdateView):
+    model = Booking
+    fields = '__all__' # Not recommended (potential security issue if more fields added)
+
+class BookingDelete(DeleteView):
+    model = Booking
+    success_url = reverse_lazy('Bookings')

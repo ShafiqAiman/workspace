@@ -29,9 +29,7 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'bookings' %}">Bookings</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'rooms-availabilities' %}">Room Availabilities</a>
-          </li>
+          
         </ul>
         <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}

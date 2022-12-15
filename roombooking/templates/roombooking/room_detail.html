@@ -4,8 +4,8 @@
 <div class="container">
   <h1>{{ room.name }}</h1>
   <p><strong>Created on:</strong> {{ room.dateadded }}</p>
-  <a href="{{ room.get_update_url }}"><button>Update Room</button></a>
-  <a href="{{ room.get_delete_url }}"><button>Delete Room</button></a>
+  <a href="{{ room.get_update_url }}"><button class="btn btn-secondary">Update Room</button></a>
+  <a href="{{ room.get_delete_url }}"><button class="btn btn-danger">Delete Room</button></a>
 </div>
   
 {% endblock %}

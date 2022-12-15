@@ -9,7 +9,7 @@
   <ul class="list-group">
     {% for booking in booking_list %}
       <li class="list-group-item">
-        <a href="">{{ booking.id }}</a>
+        <a href="{{ booking.get_absolute_url }}">{{ booking.startdate }} - {{booking.room.name}} - {{booking.organizer}}</a>
       </li>
     {% endfor %}
   </ul>
