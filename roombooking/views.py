@@ -4,6 +4,7 @@ from .models import Room, Booking
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.admin.widgets import AdminDateWidget, AdminRadioSelect
 
 import datetime
 from roombooking.forms import RoomAvailabilitiesForm
@@ -67,9 +68,19 @@ class RoomCreate(CreateView):
     model = Room
     fields = '__all__'
 
+    def get_form(self, form_class=None):
+        form = super(RoomCreate, self).get_form(form_class)
+        form.fields['name'].widget.attrs.update({'class': 'form-control'})
+        return form
+
 class RoomUpdate(UpdateView):
     model = Room
     fields = '__all__' # Not recommended (potential security issue if more fields added)
+
+    def get_form(self, form_class=None):
+        form = super(RoomUpdate, self).get_form(form_class)
+        form.fields['name'].widget.attrs.update({'class': 'form-control'})
+        return form
 
 class RoomDelete(DeleteView):
     model = Room
@@ -77,12 +88,40 @@ class RoomDelete(DeleteView):
 
 class BookingCreate(CreateView):
     model = Booking
-    fields = ['startdate', 'enddate', 'room', 'organizer']
-    initial = {'startdate': datetime.date.today(), 'enddate': datetime.date.today(),}
+    fields = ['startdate', 'starttime', 'enddate', 'endtime', 'room', 'organizer']
+    initial = {'startdate': datetime.date.today(), 'enddate': datetime.date.today()}
+
+    def get_form(self, form_class=None):
+        form = super(BookingCreate, self).get_form(form_class)
+        form.fields['startdate'].widget = AdminDateWidget(attrs={'type': 'date'})
+        form.fields['starttime'].widget = AdminDateWidget(attrs={'type': 'time'})
+        form.fields['enddate'].widget = AdminDateWidget(attrs={'type': 'date'})
+        form.fields['endtime'].widget = AdminDateWidget(attrs={'type': 'time'})
+        form.fields['startdate'].widget.attrs.update({'class': 'form-control'})
+        form.fields['starttime'].widget.attrs.update({'class': 'form-control'})
+        form.fields['enddate'].widget.attrs.update({'class': 'form-control'})
+        form.fields['endtime'].widget.attrs.update({'class': 'form-control'})
+        form.fields['room'].widget.attrs.update({'class': 'form-control'})
+        form.fields['organizer'].widget.attrs.update({'class': 'form-control'})
+        return form
 
 class BookingUpdate(UpdateView):
     model = Booking
     fields = '__all__' # Not recommended (potential security issue if more fields added)
+
+    def get_form(self, form_class=None):
+        form = super(BookingUpdate, self).get_form(form_class)
+        form.fields['startdate'].widget = AdminDateWidget(attrs={'type': 'date'})
+        form.fields['starttime'].widget = AdminDateWidget(attrs={'type': 'time'})
+        form.fields['enddate'].widget = AdminDateWidget(attrs={'type': 'date'})
+        form.fields['endtime'].widget = AdminDateWidget(attrs={'type': 'time'})
+        form.fields['startdate'].widget.attrs.update({'class': 'form-control'})
+        form.fields['starttime'].widget.attrs.update({'class': 'form-control'})
+        form.fields['enddate'].widget.attrs.update({'class': 'form-control'})
+        form.fields['endtime'].widget.attrs.update({'class': 'form-control'})
+        form.fields['room'].widget.attrs.update({'class': 'form-control'})
+        form.fields['organizer'].widget.attrs.update({'class': 'form-control'})
+        return form
 
 class BookingDelete(DeleteView):
     model = Booking

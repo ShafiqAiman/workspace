@@ -7,11 +7,13 @@
 
   <form action="{% url 'rooms-availabilities' %}" method="post">
     {% csrf_token %}
-    <label for="start">Start: </label>
-    <input id="start" name="start" type="date">
+    
+    <div class="form-group">
+      <label for="start">Date</label>
+      <input class="form-control" id="start" name="start" type="date">
+    </div>
     <br>
-    <br>
-    <input class="btn btn-primary" type="submit">
+    <input class="btn btn-primary" type="submit" value="Search">
   </form>
   <br>
   <br>
