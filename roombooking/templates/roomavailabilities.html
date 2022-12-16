@@ -1,6 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+{% load custom_tags %}
 <div class="container">
   <h1>Available Rooms</h1>
   <br>
@@ -26,7 +27,7 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col">Room</th>
-          <th scope="col">Available Slots</th>
+          <th scope="col">Booked Slots</th>
         </tr>
       </thead>
 
@@ -37,10 +38,18 @@
           <td><a href="{{ room.get_absolute_url }}">{{ room.name }}</td>
           <td>
             <ul class="list-group">
-              <li class="list-group-item text-center">1pm - 2pm</li>
-              <li class="list-group-item text-center">2pm - 3pm</li>
-              <li class="list-group-item text-center">3pm - 4pm</li>
-              <li class="list-group-item text-center">4pm - 5pm</li>
+              {% for booking in bookings %}
+                {% if room.name == booking.room.name %}
+                <li class="list-group-item text-center">
+                  <p>Start Time: {{ booking.starttime }}</p>
+                  <p>End Time: {{ booking.endtime }}</p>
+                  <p>Booked by: {{ booking.organizer }}</p>
+                </li>
+                  
+                {% endif %}
+              
+              {% endfor %}
+              
             </ul>
           </td>
         </tr>

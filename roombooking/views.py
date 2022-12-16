@@ -25,19 +25,24 @@ def roomavailabilities(request):
 
         if form.is_valid():
             start = form.cleaned_data['start']
-            print(start)
+            print("Valid date")
         
     bookings = Booking.objects.filter(startdate = start)
 
-    roomsfilter = Room.objects
+    # roomsfilter = Room.objects
 
     roomlist = []
+    # timelist = []
+    
 
     for booking in bookings:
-        print(booking.room)
         roomlist.append(booking.room)
+        # timelist.append([booking.starttime, booking.endtime])
+        print(roomlist)
+    #     print(timelist)
 
-    rooms = roomsfilter.exclude(name__in = roomlist)
+
+    # rooms = roomsfilter.exclude(name__in = roomlist)
             
             
     context = {
@@ -88,15 +93,15 @@ class RoomDelete(DeleteView):
 
 class BookingCreate(CreateView):
     model = Booking
-    fields = ['startdate', 'starttime', 'enddate', 'endtime', 'room', 'organizer']
+    fields = ['startdate','starttime', 'enddate', 'endtime','room', 'organizer']
     initial = {'startdate': datetime.date.today(), 'enddate': datetime.date.today()}
 
     def get_form(self, form_class=None):
         form = super(BookingCreate, self).get_form(form_class)
         form.fields['startdate'].widget = AdminDateWidget(attrs={'type': 'date'})
-        form.fields['starttime'].widget = AdminDateWidget(attrs={'type': 'time'})
+        # form.fields['starttime'].widget = AdminDateWidget(attrs={'type': 'time'})
         form.fields['enddate'].widget = AdminDateWidget(attrs={'type': 'date'})
-        form.fields['endtime'].widget = AdminDateWidget(attrs={'type': 'time'})
+        # form.fields['endtime'].widget = AdminDateWidget(attrs={'type': 'time'})
         form.fields['startdate'].widget.attrs.update({'class': 'form-control'})
         form.fields['starttime'].widget.attrs.update({'class': 'form-control'})
         form.fields['enddate'].widget.attrs.update({'class': 'form-control'})
@@ -112,9 +117,9 @@ class BookingUpdate(UpdateView):
     def get_form(self, form_class=None):
         form = super(BookingUpdate, self).get_form(form_class)
         form.fields['startdate'].widget = AdminDateWidget(attrs={'type': 'date'})
-        form.fields['starttime'].widget = AdminDateWidget(attrs={'type': 'time'})
+        # form.fields['starttime'].widget = AdminDateWidget(attrs={'type': 'time'})
         form.fields['enddate'].widget = AdminDateWidget(attrs={'type': 'date'})
-        form.fields['endtime'].widget = AdminDateWidget(attrs={'type': 'time'})
+        # form.fields['endtime'].widget = AdminDateWidget(attrs={'type': 'time'})
         form.fields['startdate'].widget.attrs.update({'class': 'form-control'})
         form.fields['starttime'].widget.attrs.update({'class': 'form-control'})
         form.fields['enddate'].widget.attrs.update({'class': 'form-control'})
