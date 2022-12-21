@@ -40,11 +40,12 @@
             <ul class="list-group">
               {% for booking in bookings %}
                 {% if room.name == booking.room.name %}
-                <li class="list-group-item text-center">
+                <li class="list-group-item text-center bg-danger text-white mb-2">
                   <p>Start Time: {{ booking.starttime }}</p>
                   <p>End Time: {{ booking.endtime }}</p>
                   <p>Booked by: {{ booking.organizer }}</p>
                 </li>
+                
                 
                 {% endif %}
               
