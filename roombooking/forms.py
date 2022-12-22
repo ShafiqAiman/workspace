@@ -23,11 +23,11 @@ class BookingForm(forms.Form):
         
         if startdate < datetime.date.today() or enddate < datetime.date.today():
             print('Error with Date')
-            raise ValidationError(_('Invalid date - date is in past'))
+            raise ValidationError(_('Invalid Date - Date is in past'))
 
         if starttime.time >  endtime.time:
             print('Error with Time')
-            raise ValidationError(_('Invalid time - time is in past'))
+            raise ValidationError(_('Invalid Time - Time is in past'))
 
         return cleaned_data
 

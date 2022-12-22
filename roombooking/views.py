@@ -25,9 +25,6 @@ def roomavailabilities(request):
         start = request.POST["start"]
         
     bookings = Booking.objects.filter(startdate = start)
-
-    # rooms = roomsfilter.exclude(name__in = roomlist)
-            
             
     context = {
         'rooms': rooms,
@@ -83,17 +80,37 @@ class BookingCreate(FormView):
 
     def form_valid(self, form):
         data = form.cleaned_data
-        booking = Booking.objects.create(
-            startdate = data['startdate'],
-            enddate = data['enddate'],
-            starttime = data['starttime'],
-            endtime = data['endtime'],
-            room = data['room'],
-            organizer = self.request.user
-        )
-        booking.save()
-        return HttpResponseRedirect(reverse('bookings'))
+        print(check_availability(data))
+        if check_availability(data):
+            booking = Booking.objects.create(
+                startdate = data['startdate'],
+                enddate = data['enddate'],
+                starttime = data['starttime'],
+                endtime = data['endtime'],
+                room = data['room'],
+                organizer = self.request.user
+            )
+            booking.save()
+            return HttpResponseRedirect(reverse('bookings'))
+        else:
+            return HttpResponse("The slot is unavailable!")
 
+def check_availability(data):
+        bookings = Booking.objects.filter(room = data['room'], startdate = data['startdate'])
+
+        availabilitylist = []
+        
+        if bookings:
+            for booking in bookings:
+            
+                if (data['endtime'].time <= booking.starttime.time or data['starttime'].time > booking.endtime.time):
+                    availabilitylist.append(True)
+                else:
+                    return False
+        else:
+            return True
+        
+        return all(availabilitylist)
     
 class BookingUpdate(UpdateView):
     model = Booking
