@@ -4,7 +4,7 @@
 <div class="">
   <h1>User List</h1>
   <br>
-  <a href=""><button class="btn btn-primary mb-3" >Add User</button></a>
+  <a href="{% url 'user-create' %}"><button class="btn btn-primary mb-3" >Add User</button></a>
   
   {% if user_list %}
   <ul class="list-group">

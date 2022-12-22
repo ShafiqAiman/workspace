@@ -15,4 +15,5 @@ urlpatterns = [
     path('booking/create/', views.BookingCreate.as_view(), name='booking-create'),
     path('booking/<int:pk>/update/', views.BookingUpdate.as_view(), name='booking-update'),
     path('booking/<int:pk>/delete/', views.BookingDelete.as_view(), name='booking-delete'),
+    path('user/create/', views.UserCreate.as_view(), name='user-create'),
 ]

@@ -20,7 +20,7 @@ class BookingForm(forms.Form):
         starttime = cleaned_data.get("starttime")
         endtime = cleaned_data.get("endtime")
         room = cleaned_data.get("room")
-        print(type(starttime.time))
+        # print(type(starttime.time))
         
         if startdate < datetime.date.today() or enddate < datetime.date.today():
             print('Error with Date')
@@ -52,4 +52,14 @@ def check_availability(room, startdate, endtime, starttime):
             return True
         
         return all(availabilitylist)
-        
+
+class UserRegistrationForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'type':'text'}))
+    email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
+    choices = [('y', 'Yes'), ('n', 'No')]
+    admin = forms.ChoiceField(widget=forms.RadioSelect, choices=choices)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data

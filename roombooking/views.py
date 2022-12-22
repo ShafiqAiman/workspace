@@ -11,7 +11,7 @@ from django.shortcuts import HttpResponseRedirect
 
 
 import datetime
-from roombooking.forms import BookingForm
+from roombooking.forms import BookingForm, UserRegistrationForm
 
 # Create your views here.
 def index(request):
@@ -41,7 +41,7 @@ def roomavailabilities(request):
     
 class UserListView(generic.ListView):
     model = User
-    paginate_by = 10
+    paginate_by = 5
 
 class RoomListView(generic.ListView):
     model = Room
@@ -126,20 +126,20 @@ class BookingDelete(DeleteView):
 
 class UserCreate(FormView):
     model = User
-    form_class = BookingForm
-    template_name = 'roombooking/create_booking.html'
-    initial = {'startdate': datetime.date.today(), 'enddate': datetime.date.today()}
+    form_class = UserRegistrationForm
+    template_name = 'auth/add_user.html'
 
     def form_valid(self, form):
         data = form.cleaned_data
+        admin = False
+        if data['admin']== 'y':
+            admin = True
         
-        booking = Booking.objects.create(
-            startdate = data['startdate'],
-            enddate = data['enddate'],
-            starttime = data['starttime'],
-            endtime = data['endtime'],
-            room = data['room'],
-            organizer = self.request.user
+        user = User.objects.create_user(
+            username = data['username'],
+            password = data['password'],
+            email = data['email'],
+            is_superuser = admin
         )
-        booking.save()
-        return HttpResponseRedirect(reverse('bookings'))
+        user.save()
+        return HttpResponseRedirect(reverse('index'))
