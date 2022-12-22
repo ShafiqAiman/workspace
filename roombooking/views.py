@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.views import generic
 from .models import Room, Booking
+from django.contrib.auth.models import User
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import FormView
 from django.urls import reverse_lazy, reverse
-from django.contrib.admin.widgets import AdminDateWidget, AdminRadioSelect
-from django.shortcuts import HttpResponse, HttpResponseRedirect
+from django.contrib.admin.widgets import AdminDateWidget
+from django.shortcuts import HttpResponseRedirect
+
 
 import datetime
 from roombooking.forms import BookingForm
@@ -24,7 +26,7 @@ def roomavailabilities(request):
     if request.method == 'POST':
         start = request.POST["start"]
         
-    bookings = Booking.objects.filter(startdate = start)
+    bookings = Booking.objects.filter(startdate = start).order_by('starttime')
             
     context = {
         'rooms': rooms,
@@ -37,12 +39,20 @@ def roomavailabilities(request):
     
     return render(request, 'roomavailabilities.html', context = context)
     
+class UserListView(generic.ListView):
+    model = User
+    paginate_by = 10
 
 class RoomListView(generic.ListView):
     model = Room
+    paginate_by = 10
 
 class BookingListView(generic.ListView):
     model = Booking
+    paginate_by = 10
+
+    class Meta:
+        ordering = ['starttime']
 
 class RoomDetailView(generic.DetailView):
     model = Room
@@ -80,37 +90,17 @@ class BookingCreate(FormView):
 
     def form_valid(self, form):
         data = form.cleaned_data
-        print(check_availability(data))
-        if check_availability(data):
-            booking = Booking.objects.create(
-                startdate = data['startdate'],
-                enddate = data['enddate'],
-                starttime = data['starttime'],
-                endtime = data['endtime'],
-                room = data['room'],
-                organizer = self.request.user
-            )
-            booking.save()
-            return HttpResponseRedirect(reverse('bookings'))
-        else:
-            return HttpResponse("The slot is unavailable!")
-
-def check_availability(data):
-        bookings = Booking.objects.filter(room = data['room'], startdate = data['startdate'])
-
-        availabilitylist = []
         
-        if bookings:
-            for booking in bookings:
-            
-                if (data['endtime'].time <= booking.starttime.time or data['starttime'].time > booking.endtime.time):
-                    availabilitylist.append(True)
-                else:
-                    return False
-        else:
-            return True
-        
-        return all(availabilitylist)
+        booking = Booking.objects.create(
+            startdate = data['startdate'],
+            enddate = data['enddate'],
+            starttime = data['starttime'],
+            endtime = data['endtime'],
+            room = data['room'],
+            organizer = self.request.user
+        )
+        booking.save()
+        return HttpResponseRedirect(reverse('bookings'))
     
 class BookingUpdate(UpdateView):
     model = Booking
@@ -133,3 +123,23 @@ class BookingUpdate(UpdateView):
 class BookingDelete(DeleteView):
     model = Booking
     success_url = reverse_lazy('Bookings')
+
+class UserCreate(FormView):
+    model = User
+    form_class = BookingForm
+    template_name = 'roombooking/create_booking.html'
+    initial = {'startdate': datetime.date.today(), 'enddate': datetime.date.today()}
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        
+        booking = Booking.objects.create(
+            startdate = data['startdate'],
+            enddate = data['enddate'],
+            starttime = data['starttime'],
+            endtime = data['endtime'],
+            room = data['room'],
+            organizer = self.request.user
+        )
+        booking.save()
+        return HttpResponseRedirect(reverse('bookings'))

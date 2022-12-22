@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="">
+  <h1>User List</h1>
+  <br>
+  <a href=""><button class="btn btn-primary mb-3" >Add User</button></a>
+  
+  {% if user_list %}
+  <ul class="list-group">
+    {% for user in user_list %}
+      <li class="list-group-item">
+        <a href="">{{ user.username }}</a>
+        <p>{{ user.date_joined }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no users in the library.</p>
+  {% endif %}
+</div>
+  
+{% endblock %}

@@ -46,6 +46,9 @@ class Booking(models.Model):
     organizer = models.ForeignKey(User, on_delete=models.CASCADE)
     dateadded = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-dateadded']
+
     def __str__(self):
         """String for representing the Model object."""
         return '{0} ({1})'.format(self.startdate, self.room.name)

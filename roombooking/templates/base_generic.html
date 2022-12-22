@@ -21,7 +21,7 @@
             <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Users</a>
+            <a class="nav-link" href="{% url 'users' %}">Users</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'rooms' %}">Rooms</a>
@@ -56,8 +56,29 @@
     <div class="container-fluid">
     <div class="row">
       
-      <div class="container mb-5">{% block content %}{% endblock %}</div>
-      <!-- <footer class="text-center text-white fixed-bottom bg-dark mt-3">
+      <div class="container mb-5">{% block content %}{% endblock %}
+        {% block pagination %}
+          {% if is_paginated %}
+              <div class="pagination">
+                  <span class="page-links">
+                    <br>
+                      <p class="page-current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                      </p>
+                      {% if page_obj.has_previous %}
+                          <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}"><button class="btn btn-secondary">Previous</button></a>
+                      {% endif %}
+                      
+                      {% if page_obj.has_next %}
+                          <a href="{{ request.path }}?page={{ page_obj.next_page_number }}"><button class="btn btn-secondary">Next</button></a>
+                      {% endif %}
+                  </span>
+              </div>
+          {% endif %}
+        {% endblock %}
+
+      </div>
+      <footer class="text-center text-white fixed-bottom bg-dark mt-3">
         
        
         <div class="text-center p-3">
@@ -65,7 +86,7 @@
           <a class="text-white">ABC Sdn Bhd</a>
         </div>
         
-      </footer> -->
+      </footer>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

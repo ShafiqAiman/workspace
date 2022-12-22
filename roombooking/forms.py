@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Room, StartTime, EndTime
+from .models import Room, StartTime, EndTime, Booking
 import datetime
 
 from django.core.exceptions import ValidationError
@@ -19,6 +19,7 @@ class BookingForm(forms.Form):
         enddate = cleaned_data.get("enddate")
         starttime = cleaned_data.get("starttime")
         endtime = cleaned_data.get("endtime")
+        room = cleaned_data.get("room")
         print(type(starttime.time))
         
         if startdate < datetime.date.today() or enddate < datetime.date.today():
@@ -27,9 +28,28 @@ class BookingForm(forms.Form):
 
         if starttime.time >  endtime.time:
             print('Error with Time')
-            raise ValidationError(_('Invalid Time - Time is in past'))
+            raise ValidationError(_('Invalid Time - Start Time cannot be after End Time'))
 
-        return cleaned_data
+        if check_availability(room, startdate, endtime, starttime):
+            return cleaned_data
+        else:
+            raise ValidationError(_('The slot is unavailable!'))
 
+def check_availability(room, startdate, endtime, starttime):
+        bookings = Booking.objects.filter(room = room, startdate = startdate)
+        
 
+        availabilitylist = []
+        
+        if bookings:
+            for booking in bookings:
+                
+                if (endtime.time <= booking.starttime.time or starttime.time >= booking.endtime.time):
+                    availabilitylist.append(True)
+                else:
+                    return False
+        else:
+            return True
+        
+        return all(availabilitylist)
         
