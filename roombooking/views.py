@@ -8,7 +8,7 @@ from django.views.generic import FormView
 from django.urls import reverse_lazy, reverse
 from django.contrib.admin.widgets import AdminDateWidget
 from django.shortcuts import HttpResponseRedirect
-
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 
 import datetime
 from roombooking.forms import BookingForm, UserRegistrationForm
@@ -39,7 +39,8 @@ def roomavailabilities(request):
     
     return render(request, 'roomavailabilities.html', context = context)
     
-class UserListView(generic.ListView):
+class UserListView(PermissionRequiredMixin, generic.ListView):
+    permission_required = 'roombooking.can_view_user'
     model = User
     paginate_by = 5
 
@@ -60,7 +61,8 @@ class RoomDetailView(generic.DetailView):
 class BookingDetailView(generic.DetailView):
     model = Booking
 
-class RoomCreate(CreateView):
+class RoomCreate(PermissionRequiredMixin, CreateView):
+    permission_required = 'roombooking.can_add_room'
     model = Room
     fields = '__all__'
 
@@ -69,7 +71,8 @@ class RoomCreate(CreateView):
         form.fields['name'].widget.attrs.update({'class': 'form-control'})
         return form
 
-class RoomUpdate(UpdateView):
+class RoomUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = 'roombooking.can_update_room'
     model = Room
     fields = '__all__' # Not recommended (potential security issue if more fields added)
 
@@ -78,11 +81,12 @@ class RoomUpdate(UpdateView):
         form.fields['name'].widget.attrs.update({'class': 'form-control'})
         return form
 
-class RoomDelete(DeleteView):
+class RoomDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = 'roombooking.can_delete_room'
     model = Room
     success_url = reverse_lazy('Rooms')
 
-class BookingCreate(FormView):
+class BookingCreate(LoginRequiredMixin, FormView):
     model = Booking
     form_class = BookingForm
     template_name = 'roombooking/create_booking.html'
@@ -124,7 +128,8 @@ class BookingDelete(DeleteView):
     model = Booking
     success_url = reverse_lazy('Bookings')
 
-class UserCreate(FormView):
+class UserCreate(PermissionRequiredMixin, FormView):
+    permission_required = 'roombooking.can_add_user'
     model = User
     form_class = UserRegistrationForm
     template_name = 'auth/add_user.html'

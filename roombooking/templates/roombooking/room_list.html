@@ -4,9 +4,12 @@
 <div class="">
   <h1>Room List</h1>
   <br>
+  {% if user.is_superuser %}
   <a href="{% url 'room-create' %}"><button class="btn btn-primary mb-3" >Add Room</button></a>
-  <a href="{% url 'booking-create' %}"><button class="btn btn-secondary mb-3" >Book Room</button></a>
   <a href="{% url 'rooms-availabilities' %}"><button class="btn btn-dark mb-3" >Room Availabilities</button></a>
+  {% endif %}
+  <a href="{% url 'booking-create' %}"><button class="btn btn-secondary mb-3" >Book Room</button></a>
+  
   
   {% if room_list %}
   <ul class="list-group">
