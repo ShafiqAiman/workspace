@@ -84,7 +84,7 @@ class RoomUpdate(PermissionRequiredMixin, UpdateView):
 class RoomDelete(PermissionRequiredMixin, DeleteView):
     permission_required = 'roombooking.can_delete_room'
     model = Room
-    success_url = reverse_lazy('Rooms')
+    success_url = reverse_lazy('rooms')
 
 class BookingCreate(LoginRequiredMixin, FormView):
     model = Booking

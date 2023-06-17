@@ -4,9 +4,13 @@
 <div class="">
   <h1>{{ room.name }}</h1>
   <p><strong>Created on:</strong> {{ room.dateadded }}</p>
+  <img src="{{ room.get_picture_url }}" alt="roompicture" width="90%">
   {% if user.is_superuser %}
-  <a href="{{ room.get_update_url }}"><button class="btn btn-secondary">Update Room</button></a>
-  <a href="{{ room.get_delete_url }}"><button class="btn btn-danger">Delete Room</button></a>
+  <div class="mt-3 mb-4">
+    <a href="{{ room.get_update_url }}"><button class="btn btn-secondary">Update Room</button></a>
+    <a href="{{ room.get_delete_url }}"><button class="btn btn-danger">Delete Room</button></a>
+  </div>
+  
   {% endif %}
 </div>
   

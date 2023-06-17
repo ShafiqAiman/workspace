@@ -6,6 +6,7 @@ import uuid
 
 class Room(models.Model):
     name = models.CharField(max_length=255)
+    room_pic = models.ImageField(upload_to="images/", null=True)
     dateadded = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
@@ -16,6 +17,11 @@ class Room(models.Model):
     
     def get_delete_url(self):
         return reverse('room-delete', args=[str(self.id)])
+
+    def get_picture_url(self):
+        if self.room_pic:
+            return 'http://127.0.0.1:8000/' + self.room_pic.url
+        return ''
 
     def __str__(self):
         """String for representing the Model object."""
